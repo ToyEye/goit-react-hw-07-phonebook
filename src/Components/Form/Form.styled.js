@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import toast from 'react-hot-toast';
-import { useSelector, useDispatch } from 'react-redux';
-import actions from '../../redux/contacts/contact-action';
-import { getContact } from '../../redux/contacts/contact-selector';
 import Button from '../Button';
 import { ImputEnter, InputType, InputText } from '../FormComponents';
+import {
+  useAddContactMutation,
+  useFetchContactsQuery,
+} from '../../services/contactsApi';
 
 const FormStyled = styled.form`
   display: flex;
@@ -21,19 +22,8 @@ const FormStyled = styled.form`
 export default function Form() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-
-  const contacts = useSelector(getContact);
-  const dispatch = useDispatch();
-
-  const addContact = ({ name, number }) => {
-    if (contacts.find(contact => contact.name === name)) {
-      toast.error('Контакт существует!');
-      return;
-    } else {
-      toast.success('Контакт добавлен');
-      dispatch(actions.addContact(name, number));
-    }
-  };
+  const [createContact] = useAddContactMutation();
+  const { data } = useFetchContactsQuery();
 
   const handleChange = evt => {
     const { name, value } = evt.target;
@@ -50,9 +40,16 @@ export default function Form() {
     }
   };
 
-  const handleSubmit = evt => {
+  const handleSubmit = async evt => {
     evt.preventDefault();
-    addContact({ name, number });
+
+    if (data.find(contact => contact.name === name)) {
+      toast.error('Контакт существует!');
+      return;
+    } else {
+      toast.success('Контакт добавлен');
+      await createContact({ name, number });
+    }
 
     reset();
   };

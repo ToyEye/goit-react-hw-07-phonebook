@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import Button from '../Button';
-import actions from '../../redux/contacts/contact-action';
-import { useDispatch } from 'react-redux';
+
 import PropTypes from 'prop-types';
+import { useDeleteContactMutation } from '..//../services/contactsApi';
 
 const ContactItemStyled = styled.li`
   color: black;
@@ -18,13 +18,14 @@ const ContactName = styled.p`
 `;
 
 export const ContactItem = ({ id, name, number }) => {
-  const dispatch = useDispatch();
+  const [deleteContact] = useDeleteContactMutation();
+
   return (
     <ContactItemStyled key={id} id={id}>
       <ContactName>
         {name} : {number}
       </ContactName>
-      <Button onClick={() => dispatch(actions.deleteContact(id))} type="button">
+      <Button onClick={() => deleteContact(id)} type="button">
         Delete
       </Button>
     </ContactItemStyled>

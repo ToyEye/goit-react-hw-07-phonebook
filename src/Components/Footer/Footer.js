@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 
 const ContainerDeveloper = styled.div`
-  margin-left: auto;
-  margin-top: auto;
+  transform: translate(-45%, -20%);
+  position: fixed;
+  top: 95%;
+  left: 50%;
 `;
 
 const Link = styled.a`

@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { getAllContacts } from '../../redux/contacts/contact-selector';
 import { ContactItem } from '../ContactItem';
-
+import { useFetchContactsQuery } from '../../services/contactsApi';
+import { LoaderSimbol } from '../Loader/';
 const ContactStyledList = styled.ul`
   width: 450px;
   padding: 15px;
@@ -15,13 +14,15 @@ const ContactStyledList = styled.ul`
 `;
 
 const ContactList = () => {
-  const contacts = useSelector(getAllContacts);
+  const { data: contacts, isFetching } = useFetchContactsQuery();
 
   return (
     <ContactStyledList>
-      {contacts.map(({ name, id, number }) => (
-        <ContactItem key={id} name={name} id={id} number={number} />
-      ))}
+      {isFetching && <LoaderSimbol />}
+      {contacts &&
+        contacts.map(({ name, id, number }) => (
+          <ContactItem key={id} name={name} id={id} number={number} />
+        ))}
     </ContactStyledList>
   );
 };
