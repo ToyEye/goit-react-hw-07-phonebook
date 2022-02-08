@@ -6,7 +6,7 @@ import { ImputEnter, InputType, InputText } from '../FormComponents';
 import {
   useAddContactMutation,
   useFetchContactsQuery,
-} from '../../services/contactsApi';
+} from '../../redux/contacts/contactsApi.js';
 
 const FormStyled = styled.form`
   display: flex;

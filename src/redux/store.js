@@ -12,7 +12,7 @@ import {
 
 import storage from 'redux-persist/lib/storage';
 import contacts from './contacts/contact-reducer';
-import { contactApi } from '../services/contactsApi';
+import { contactApi } from './contacts/contactsApi';
 
 const middleware = getDefaultMiddleware => [
   ...getDefaultMiddleware({

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Button from '../Button';
 
 import PropTypes from 'prop-types';
-import { useDeleteContactMutation } from '..//../services/contactsApi';
+import { useDeleteContactMutation } from '../../redux/contacts/contactsApi';
 
 const ContactItemStyled = styled.li`
   color: black;

@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ContactItem } from '../ContactItem';
-import { useFetchContactsQuery } from '../../services/contactsApi';
+import { useFetchContactsQuery } from '../../redux/contacts/contactsApi';
 import { LoaderSimbol } from '../Loader/';
+
 const ContactStyledList = styled.ul`
   width: 450px;
   padding: 15px;
