@@ -7,10 +7,10 @@ export const contactApi = createApi({
   }),
   tagTypes: ['Contacts'],
   endpoints: builder => ({
-    // fetchContacts: builder.query({
-    //   query: () => `contacts`,
-    //   providesTags: ['Contacts'],
-    // }),
+    fetchContacts: builder.query({
+      query: () => `contacts`,
+      providesTags: ['Contacts'],
+    }),
     filterContact: builder.query({
       query: filter => ({
         url: `/contacts/?filter=${filter}`,
@@ -35,7 +35,7 @@ export const contactApi = createApi({
   }),
 });
 export const {
-  // useFetchContactsQuery,
+  useFetchContactsQuery,
   useDeleteContactMutation,
   useAddContactMutation,
   useFilterContactQuery,
