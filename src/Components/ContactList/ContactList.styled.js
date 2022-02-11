@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ContactItem } from '../ContactItem';
-import { useFilterContactQuery } from '../../redux/contacts/contactsApi';
+import { useFetchContactsQuery } from '../../redux/contacts/contactsApi';
 import { LoaderSimbol } from '../Loader/';
 import { useSelector } from 'react-redux';
 import { getFilter } from '../../redux/contacts/contact-selector';
@@ -19,7 +19,7 @@ const ContactStyledList = styled.ul`
 const ContactList = () => {
   const filter = useSelector(getFilter);
 
-  const { data: contacts, isFetching } = useFilterContactQuery(filter);
+  const { data: contacts, isFetching } = useFetchContactsQuery(filter);
 
   return (
     <ContactStyledList>

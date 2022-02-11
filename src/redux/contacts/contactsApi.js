@@ -11,12 +11,7 @@ export const contactApi = createApi({
       query: () => `contacts`,
       providesTags: ['Contacts'],
     }),
-    filterContact: builder.query({
-      query: filter => ({
-        url: `/contacts/?filter=${filter}`,
-      }),
-      providesTags: ['Contacts'],
-    }),
+
     deleteContact: builder.mutation({
       query: contactId => ({
         url: `/contacts/${contactId}`,
@@ -38,5 +33,4 @@ export const {
   useFetchContactsQuery,
   useDeleteContactMutation,
   useAddContactMutation,
-  useFilterContactQuery,
 } = contactApi;
