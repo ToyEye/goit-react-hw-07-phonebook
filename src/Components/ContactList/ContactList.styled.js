@@ -17,15 +17,18 @@ const ContactStyledList = styled.ul`
 `;
 
 const ContactList = () => {
-  const filter = useSelector(getFilter);
+  const filter = useSelector(getFilter).toLowerCase();
 
-  const { data: contacts, isFetching } = useFetchContactsQuery(filter);
+  const { data: contacts, isFetching } = useFetchContactsQuery();
+  const getFilteredContacts = contacts =>
+    contacts.filter(({ name }) => name.toLowerCase().includes(filter));
+  const filtered = contacts ? getFilteredContacts(contacts) : [];
 
   return (
     <ContactStyledList>
       {isFetching && <LoaderSimbol />}
-      {contacts &&
-        contacts.map(({ name, id, number }) => (
+      {filtered &&
+        filtered.map(({ name, id, number }) => (
           <ContactItem key={id} name={name} id={id} number={number} />
         ))}
     </ContactStyledList>
