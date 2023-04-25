@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import toast from 'react-hot-toast';
 import Button from '../Button';
 import { ImputEnter, InputType, InputText } from '../FormComponents';
-import {
-  useAddContactMutation,
-  useFetchContactsQuery,
-} from '../../redux/contacts/contactsApi.js';
+// import {
+//   useAddContactMutation,
+//   useFetchContactsQuery,
+// } from '../../redux/contacts/contactsApi.js';
 
 const FormStyled = styled.form`
   display: flex;
@@ -22,8 +22,8 @@ const FormStyled = styled.form`
 export default function Form() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const [createContact] = useAddContactMutation();
-  const { data } = useFetchContactsQuery();
+  // const [createContact] = useAddContactMutation();
+  // const { data } = useFetchContactsQuery();
 
   const handleChange = evt => {
     const { name, value } = evt.target;
@@ -43,13 +43,13 @@ export default function Form() {
   const handleSubmit = async evt => {
     evt.preventDefault();
 
-    if (data.find(contact => contact.name === name)) {
-      toast.error('Контакт существует!');
-      return;
-    } else {
-      toast.success('Контакт добавлен');
-      await createContact({ name, number });
-    }
+    // if (data.find(contact => contact.name === name)) {
+    //   toast.error('Контакт существует!');
+    //   return;
+    // } else {
+    //   toast.success('Контакт добавлен');
+    //   await createContact({ name, number });
+    // }
 
     reset();
   };

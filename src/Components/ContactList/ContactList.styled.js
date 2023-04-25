@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { ContactItem } from '../ContactItem';
-import { useFetchContactsQuery } from '../../redux/contacts/contactsApi';
+// import { useFetchContactsQuery } from '../../redux/contacts/contactsApi';
+import { fetchApi } from '../../redux/contacts/contact-operation';
 import { LoaderSimbol } from '../Loader/';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { getFilter } from '../../redux/contacts/contact-selector';
 
 const ContactStyledList = styled.ul`
@@ -17,19 +18,21 @@ const ContactStyledList = styled.ul`
 `;
 
 const ContactList = () => {
-  const filter = useSelector(getFilter).toLowerCase();
+  const dispatch = useDispatch();
+  const { loading, contacts } = useSelector(state => state.contacts);
 
-  const { data: contacts, isFetching } = useFetchContactsQuery();
-  const getFilteredContacts = contacts =>
-    contacts.filter(({ name }) => name.toLowerCase().includes(filter));
-  const filtered = contacts ? getFilteredContacts(contacts) : [];
+  useEffect(() => {
+    dispatch(fetchApi());
+  }, [dispatch]);
+
+  const filtered = [];
 
   return (
     <ContactStyledList>
-      {isFetching && <LoaderSimbol />}
-      {filtered &&
-        filtered.map(({ name, id, number }) => (
-          <ContactItem key={id} name={name} id={id} number={number} />
+      {loading && <LoaderSimbol />}
+      {contacts &&
+        contacts.map(({ name, id, phone }) => (
+          <ContactItem key={id} name={name} id={id} phone={phone} />
         ))}
     </ContactStyledList>
   );
