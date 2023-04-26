@@ -1,4 +1,4 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 import {
   fetchApi,
@@ -7,28 +7,18 @@ import {
 } from './contact-operation';
 
 export const initialState = {
-  contacts: [],
-  loading: null,
-  error: null,
+  contacts: {
+    item: [],
+    loading: null,
+    error: null,
+  },
+
+  filter: '',
 };
 
 const contactSlice = createSlice({
   name: 'contacts',
   initialState,
-  reducers: {
-    addContact(state, action) {
-      state.contacts.push({
-        id: nanoid(),
-        name: action.payload.name,
-        number: action.payload.number,
-      });
-    },
-    // deleteContact(state, action) {
-    //   state.contacts = state.contacts.filter(
-    //     contact => contact.id !== action.payload.id
-    //   );
-    // },
-  },
   extraReducers: {
     [fetchApi.pending]: state => {
       state.loading = true;
@@ -36,7 +26,7 @@ const contactSlice = createSlice({
     },
     [fetchApi.fulfilled]: (state, action) => {
       state.loading = false;
-      state.contacts = action.payload;
+      state.contacts.item = action.payload;
     },
     [fetchApi.rejected]: (state, action) => {
       state.loading = false;
@@ -50,7 +40,7 @@ const contactSlice = createSlice({
     [deleteContactThunk.fulfilled]: (state, action) => {
       state.error = null;
       state.loading = false;
-      state.contacts = state.contacts.filter(
+      state.contacts.item = state.contacts.item.filter(
         contact => contact.id !== action.payload.id
       );
     },
@@ -66,7 +56,7 @@ const contactSlice = createSlice({
     [addContactThunk.fulfilled]: (state, action) => {
       state.error = null;
       state.loading = false;
-      state.contacts.push(action.payload);
+      state.contacts.item.push(action.payload);
     },
     [addContactThunk.rejected]: (state, action) => {
       state.loading = false;

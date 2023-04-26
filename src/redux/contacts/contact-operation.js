@@ -27,7 +27,7 @@ const addContactThunk = createAsyncThunk(
     try {
       const response = await axios.post('/contacts', { ...contact });
 
-      if (response.status !== 200) {
+      if (response.status !== 201) {
         throw new Error('Server Error');
       }
 

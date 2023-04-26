@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import toast from 'react-hot-toast';
 import Button from '../Button';
 import { ImputEnter, InputType, InputText } from '../FormComponents';
-// import {
-//   useAddContactMutation,
-//   useFetchContactsQuery,
-// } from '../../redux/contacts/contactsApi.js';
+
+import { addContactThunk } from '../../redux/contacts/contact-operation';
+
+import { useDispatch, useSelector } from 'react-redux';
 
 const FormStyled = styled.form`
   display: flex;
@@ -21,9 +21,11 @@ const FormStyled = styled.form`
 
 export default function Form() {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-  // const [createContact] = useAddContactMutation();
-  // const { data } = useFetchContactsQuery();
+  const [phone, setNumber] = useState('');
+
+  const { contacts } = useSelector(state => state.contacts);
+
+  const dispatch = useDispatch();
 
   const handleChange = evt => {
     const { name, value } = evt.target;
@@ -32,7 +34,7 @@ export default function Form() {
       case 'name':
         setName(value);
         break;
-      case 'number':
+      case 'phone':
         setNumber(value);
         break;
       default:
@@ -43,13 +45,13 @@ export default function Form() {
   const handleSubmit = async evt => {
     evt.preventDefault();
 
-    // if (data.find(contact => contact.name === name)) {
-    //   toast.error('Контакт существует!');
-    //   return;
-    // } else {
-    //   toast.success('Контакт добавлен');
-    //   await createContact({ name, number });
-    // }
+    if (contacts.item.find(contact => contact.name === name)) {
+      toast.error('Контакт существует!');
+      return;
+    } else {
+      toast.success('Контакт добавлен');
+      await dispatch(addContactThunk({ name, phone }));
+    }
 
     reset();
   };
@@ -80,12 +82,12 @@ export default function Form() {
         <InputText>Name</InputText>
         <ImputEnter
           type="tel"
-          name="number"
+          name="phone"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
           placeholder="Enter your number"
-          value={number}
+          value={phone}
           onChange={handleChange}
         />
       </InputType>

@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ContactItem } from '../ContactItem';
-// import { useFetchContactsQuery } from '../../redux/contacts/contactsApi';
-import { fetchApi } from '../../redux/contacts/contact-operation';
-import { LoaderSimbol } from '../Loader/';
-import { useSelector, useDispatch } from 'react-redux';
-import { getFilter } from '../../redux/contacts/contact-selector';
+import filterSelector from '../../redux/contacts/contact-selector';
+
+import { useSelector } from 'react-redux';
 
 const ContactStyledList = styled.ul`
   width: 450px;
@@ -18,20 +16,17 @@ const ContactStyledList = styled.ul`
 `;
 
 const ContactList = () => {
-  const dispatch = useDispatch();
-  const { loading, contacts } = useSelector(state => state.contacts);
+  const [filteredContacts, setFilteredContacts] = useState();
+  const filtered = useSelector(filterSelector);
 
   useEffect(() => {
-    dispatch(fetchApi());
-  }, [dispatch]);
-
-  const filtered = [];
+    setFilteredContacts(filtered);
+  }, [filtered]);
 
   return (
     <ContactStyledList>
-      {loading && <LoaderSimbol />}
-      {contacts &&
-        contacts.map(({ name, id, phone }) => (
+      {filteredContacts &&
+        filteredContacts.map(({ name, id, phone }) => (
           <ContactItem key={id} name={name} id={id} phone={phone} />
         ))}
     </ContactStyledList>

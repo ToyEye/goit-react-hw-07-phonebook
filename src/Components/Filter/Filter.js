@@ -1,6 +1,6 @@
 import React from 'react';
 import { ImputEnter, InputType, InputText } from '../FormComponents';
-import actions from '../../redux/contacts/contact-action';
+import { filterContact } from '../../redux/contacts/filterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { getFilter } from '../../redux/contacts/contact-selector';
 
@@ -9,7 +9,7 @@ const Filter = () => {
   const dispatch = useDispatch();
 
   const handler = evt => {
-    dispatch(actions.filterChange(evt.target.value));
+    dispatch(filterContact(evt.target.value));
   };
 
   return (
