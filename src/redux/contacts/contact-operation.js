@@ -10,10 +10,6 @@ const fetchApi = createAsyncThunk(
     try {
       const response = await axios.get('/contacts');
 
-      if (response.status !== 200) {
-        throw new Error('Server Error');
-      }
-
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -27,10 +23,6 @@ const addContactThunk = createAsyncThunk(
     try {
       const response = await axios.post('/contacts', { ...contact });
 
-      if (response.status !== 201) {
-        throw new Error('Server Error');
-      }
-
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -43,10 +35,6 @@ const deleteContactThunk = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await axios.delete(`/contacts/${id}`);
-
-      if (response.status !== 200) {
-        throw new Error('Server Error');
-      }
 
       return response.data;
     } catch (error) {
